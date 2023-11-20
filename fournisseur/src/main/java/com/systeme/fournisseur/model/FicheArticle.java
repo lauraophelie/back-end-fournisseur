@@ -1,6 +1,6 @@
 package com.systeme.fournisseur.model;
 
-public class DetailDemande {
+public class FicheArticle {
     private Article article;
 
     public Article getArticle() {

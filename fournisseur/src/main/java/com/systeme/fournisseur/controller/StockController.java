@@ -8,6 +8,8 @@ import com.systeme.fournisseur.service.StockService;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/api/fournisseur/stockmvn spring-boot:run")
 public class StockController {
     @Autowired
     private StockService uniteService;

@@ -5,27 +5,37 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.systeme.fournisseur.model.Article;
-import com.systeme.fournisseur.model.Demande;
-import com.systeme.fournisseur.model.DetailDemande;
+import com.systeme.fournisseur.model.Mail;
+import com.systeme.fournisseur.model.FicheArticle;
+import com.systeme.fournisseur.model.FicheProformat;
 import com.systeme.fournisseur.model.Fournisseur;
 import com.systeme.fournisseur.model.Stock;
 import com.systeme.fournisseur.repository.StockRepository;
 
+@Service
 public class StockService {
+
     @Autowired
     private StockRepository stockRepository;
 
-    public Stock[] getStockDemande(Demande demande) {
-        List<Stock> liste = new ArrayList<>();
-        for (DetailDemande detailDemande : demande.getListeDemande()) {
+    public Mail getStockDemande(Mail demande) {
+        List<FicheProformat> liste = new ArrayList<>();
+        for (FicheArticle detailDemande : demande.getListeArticles()) {
+            FicheProformat fiche = new FicheProformat(detailDemande);
             Stock stock = getStockArticle(detailDemande.getArticle(), demande.getFournisseur());
-            if (stock.getQuantite() >= detailDemande.getQuantite()) {
-                stock.setQuantite(detailDemande.getQuantite());
+            if (stock.getQuantite() < detailDemande.getQuantite()) {
+                fiche.setQuantite(stock.getQuantite());
             }
-            liste.add(stock);
+            fiche.setPrixUnitaire(stock.getPrixUnitaire());
+            liste.add(fiche);
         }
+        Mail mail = new Mail();
+        mail.setEntreprise(demande.getEntreprise());
+        mail.setFournisseur(demande.getFournisseur());
+        mail.setListeFicheProformat(liste);
         return null;
     }
 
@@ -63,5 +73,5 @@ public class StockService {
     public List<Stock> getAllStocks() {
         return stockRepository.findAll();
     }
-    
+
 }

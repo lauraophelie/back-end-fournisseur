@@ -7,35 +7,36 @@ import com.systeme.fournisseur.model.Fournisseur;
 import com.systeme.fournisseur.service.FournisseurService;
 
 import java.util.List;
-import java.util.Optional;
 
+@RestController
+@RequestMapping("/api/fournisseur/fournisseur")
 public class FournisseurController {
     @Autowired
-    private FournisseurService uniteService;
+    private FournisseurService fournisseurService;
 
     @GetMapping
     public List<Fournisseur> getAllFournisseurs() {
-        return uniteService.getAllFournisseurs();
+        return fournisseurService.getAllFournisseurs();
     }
 
     @GetMapping("/{id}")
-    public Optional<Fournisseur> getFournisseurById(@PathVariable String id) {
-        return uniteService.getFournisseurById(id);
+    public Fournisseur getFournisseurById(@PathVariable String id) {
+        return fournisseurService.getFournisseurById(id);
     }
 
     @PostMapping
     public Fournisseur createFournisseur(@RequestBody Fournisseur unite) {
-        return uniteService.createFournisseur(unite);
+        return fournisseurService.createFournisseur(unite);
     }
 
     @PutMapping("/{id}")
     public Fournisseur updateUnite(@PathVariable String id, @RequestBody Fournisseur unite) {
         unite.setId(id);
-        return uniteService.updateFournisseur(unite);
+        return fournisseurService.updateFournisseur(unite);
     }
 
     @DeleteMapping("/{id}")
     public void deleteFournisseurById(@PathVariable String id) {
-        uniteService.deleteFournisseurById(id);
+        fournisseurService.deleteFournisseurById(id);
     }
 }

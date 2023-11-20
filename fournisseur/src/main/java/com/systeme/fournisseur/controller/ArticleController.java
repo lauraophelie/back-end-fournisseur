@@ -9,10 +9,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.systeme.fournisseur.model.Article;
 import com.systeme.fournisseur.service.ArticleService;
 
+@RestController
+@RequestMapping("/api/fournisseur/article")
 public class ArticleController {
     @Autowired
     private ArticleService articleService;
@@ -23,17 +27,17 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public Article getUniteById(@PathVariable String id) {
+    public Article getArticleById(@PathVariable String id) {
         return articleService.getArticleById(id);
     }
 
     @PostMapping
-    public Article createUnite(@RequestBody Article unite) {
-        return articleService.createArticle(unite);
+    public Article createarticle(@RequestBody Article article) {
+        return articleService.createArticle(article);
     }
 
     @PutMapping("/{id}")
-    public Article updateUnite(@PathVariable String id, @RequestBody Article article) {
+    public Article updatearticle(@PathVariable String id, @RequestBody Article article) {
         article.setId(id);
         return articleService.updateArticle(article);
     }
