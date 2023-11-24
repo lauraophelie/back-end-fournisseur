@@ -36,7 +36,7 @@ public class StockService {
         mail.setEntreprise(demande.getEntreprise());
         mail.setFournisseur(demande.getFournisseur());
         mail.setListeFicheProformat(liste);
-        return null;
+        return mail;
     }
 
     public Stock getStockArticle(Article article, Fournisseur fournisseur) {

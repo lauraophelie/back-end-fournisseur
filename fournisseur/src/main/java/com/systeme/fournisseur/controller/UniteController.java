@@ -7,7 +7,7 @@ import com.systeme.fournisseur.model.Unite;
 import com.systeme.fournisseur.service.UniteService;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/fournisseur/unite")
@@ -22,8 +22,10 @@ public class UniteController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Unite> getUniteById(@PathVariable String id) {
-        return uniteService.getUniteById(id);
+    public Unite getUniteById(@PathVariable String id) {
+        int newId = Integer.parseInt(id);
+        return uniteService.getUniteById(newId)
+                .orElseThrow(() -> new NoSuchElementException("Erreur: élément unité non trouvé"));
     }
 
     @PostMapping
@@ -33,7 +35,7 @@ public class UniteController {
 
     @PutMapping("/{id}")
     public Unite updateUnite(@PathVariable String id, @RequestBody Unite unite) {
-        unite.setId(id);
+        unite.setId(Integer.parseInt(id));
         return uniteService.updateUnite(unite);
     }
 

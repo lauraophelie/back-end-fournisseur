@@ -19,7 +19,7 @@ public class UniteService {
         return uniteRepository.save(unite);
     }
 
-    public Optional<Unite> getUniteById(String id) {
+    public Optional<Unite> getUniteById(int id) {
         return uniteRepository.findById(id);
     }
 
@@ -33,7 +33,8 @@ public class UniteService {
     }
 
     public void deleteUniteById(String id) {
-        uniteRepository.deleteById(id);
+        int newId = Integer.parseInt(id);
+        uniteRepository.deleteById(newId);
     }
 
     public List<Unite> getAllUnites() {

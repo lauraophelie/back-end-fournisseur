@@ -1,5 +1,7 @@
 package com.systeme.fournisseur.api;
 
+import org.springframework.http.HttpStatus;
+
 public class APIResponse {
     private String error;
 
@@ -22,8 +24,11 @@ public class APIResponse {
     }
 
     public APIResponse(String error, Object data) {
-        setError(error);
         setData(data);
+        if (data == null) {
+            setError(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+        } else
+            setError(error);
     }
 
     public APIResponse() {

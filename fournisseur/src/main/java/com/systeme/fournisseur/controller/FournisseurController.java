@@ -7,6 +7,7 @@ import com.systeme.fournisseur.model.Fournisseur;
 import com.systeme.fournisseur.service.FournisseurService;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api/fournisseur/fournisseur")
