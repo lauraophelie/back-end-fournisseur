@@ -7,7 +7,7 @@ import com.systeme.fournisseur.model.Fournisseur;
 import com.systeme.fournisseur.repository.FournisseurRepository;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 public class FournisseurService {
@@ -19,8 +19,9 @@ public class FournisseurService {
         return fournisseurRepository.save(fournisseur);
     }
 
-    public Optional<Fournisseur> getFournisseurById(String id) {
-        return fournisseurRepository.findById(id);
+    public Fournisseur getFournisseurById(String id) {
+        return fournisseurRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Fournisseur introuvable"));
     }
 
     public Fournisseur updateFournisseur(Fournisseur fournisseur) {

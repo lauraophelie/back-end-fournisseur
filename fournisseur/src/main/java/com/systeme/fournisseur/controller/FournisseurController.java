@@ -1,41 +1,60 @@
 package com.systeme.fournisseur.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.systeme.fournisseur.api.APIResponse;
 import com.systeme.fournisseur.model.Fournisseur;
 import com.systeme.fournisseur.service.FournisseurService;
 
 import java.util.List;
-import java.util.Optional;
 
+@RestController
+@RequestMapping("/api/fournisseur/fournisseur")
 public class FournisseurController {
     @Autowired
-    private FournisseurService uniteService;
+    private FournisseurService fournisseurService;
 
     @GetMapping
-    public List<Fournisseur> getAllFournisseurs() {
-        return uniteService.getAllFournisseurs();
+    public ResponseEntity<APIResponse> getAllFournisseurs() {
+        try {
+            List<Fournisseur> liste = fournisseurService.getAllFournisseurs();
+            return new ResponseEntity<APIResponse>(new APIResponse("", liste), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
-    public Optional<Fournisseur> getFournisseurById(@PathVariable String id) {
-        return uniteService.getFournisseurById(id);
+    public ResponseEntity<APIResponse> getFournisseurById(@PathVariable String id) {
+        try {
+            Fournisseur liste = fournisseurService.getFournisseurById(id);
+            return new ResponseEntity<APIResponse>(new APIResponse("", liste), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping
     public Fournisseur createFournisseur(@RequestBody Fournisseur unite) {
-        return uniteService.createFournisseur(unite);
+        return fournisseurService.createFournisseur(unite);
     }
 
     @PutMapping("/{id}")
-    public Fournisseur updateUnite(@PathVariable String id, @RequestBody Fournisseur unite) {
+    public ResponseEntity<APIResponse> updateUnite(@PathVariable String id, @RequestBody Fournisseur unite) {
         unite.setId(id);
-        return uniteService.updateFournisseur(unite);
+        try {
+            Fournisseur liste = fournisseurService.updateFournisseur(unite);
+            return new ResponseEntity<APIResponse>(new APIResponse("", liste), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/{id}")
     public void deleteFournisseurById(@PathVariable String id) {
-        uniteService.deleteFournisseurById(id);
+        fournisseurService.deleteFournisseurById(id);
     }
 }

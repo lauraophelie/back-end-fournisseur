@@ -8,7 +8,6 @@ import com.systeme.fournisseur.model.Categorie;
 import com.systeme.fournisseur.repository.CategorieRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
