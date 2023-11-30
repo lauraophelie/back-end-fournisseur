@@ -2,19 +2,16 @@ package com.systeme.fournisseur.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "proformat")
-public class FicheProformat {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Table(name = "proforma")
+public class FicheProforma {
     @Id
-    @Column(name = "id_fiche_article")
+    @Column(name = "id_fiche_article", columnDefinition = "int DEFAULT nextval('article_id_seq') NOT NULL")
     private int id;
 
     public int getId() {
@@ -71,10 +68,10 @@ public class FicheProformat {
         this.prixUnitaire = prixUnitaire;
     }
 
-    public FicheProformat() {
+    public FicheProforma() {
     }
 
-    public FicheProformat(FicheArticle ficheArticle) {
+    public FicheProforma(FicheArticle ficheArticle) {
         this.setArticle(ficheArticle.getArticle());
         this.setQuantite(ficheArticle.getQuantite());
     }

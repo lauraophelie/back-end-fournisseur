@@ -2,17 +2,14 @@ package com.systeme.fournisseur.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "entreprise")
 public class Entreprise {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id_entreprise")
+    @Column(name = "id_entreprise", columnDefinition = "concat('SOC', nextval('entreprise_id_seq'))")
     private String id;
 
     public String getId() {

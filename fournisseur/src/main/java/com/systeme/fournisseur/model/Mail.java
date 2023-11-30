@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 public class Mail {
 
     @Id
-    @Column(name = "id_mail")
+    @Column(name = "id_mail", columnDefinition = "int default nextval(mail_demande_id_mail_seq) not null")
     int id;
 
     public int getId() {
@@ -61,14 +61,14 @@ public class Mail {
         this.listeArticles = listeArticles;
     }
 
-    @OneToMany(mappedBy = "proformat", cascade = CascadeType.ALL)
-    List<FicheProformat> listeFicheProformat;
+    @OneToMany(mappedBy = "proforma", cascade = CascadeType.ALL)
+    List<FicheProforma> listeFicheProformat;
 
-    public List<FicheProformat> getListeFicheProformat() {
+    public List<FicheProforma> getListeFicheProformat() {
         return listeFicheProformat;
     }
 
-    public void setListeFicheProformat(List<FicheProformat> listeProFicheProformat) {
+    public void setListeFicheProformat(List<FicheProforma> listeProFicheProformat) {
         this.listeFicheProformat = listeProFicheProformat;
     }
 

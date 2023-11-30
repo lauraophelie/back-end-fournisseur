@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 public class Article {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    @Column(name = "id_article")
+    @Column(name = "id_article", columnDefinition = "varchar(8) DEFAULT CONCAT('ART', nextval('article_id_seq')) NOT NULL")
     private String Id;
 
     public String getId() {
