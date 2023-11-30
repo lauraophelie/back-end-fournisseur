@@ -2,17 +2,33 @@ package com.systeme.fournisseur.model;
 
 import java.util.List;
 
-public class Mail {
-    String id;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
-    public String getId() {
+@Entity
+@Table(name = "mail")
+public class Mail {
+
+    @Id
+    @Column(name = "id_mail")
+    int id;
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "id_fournisseur")
     Fournisseur fournisseur;
 
     public Fournisseur getFournisseur() {
@@ -23,6 +39,7 @@ public class Mail {
         this.fournisseur = fournisseur;
     }
 
+    @Column(name = "objet")
     String objet;
 
     public String getObjet() {
@@ -33,6 +50,7 @@ public class Mail {
         this.objet = objet;
     }
 
+    @OneToMany(mappedBy = "fiche_article", cascade = CascadeType.ALL)
     List<FicheArticle> listeArticles;
 
     public List<FicheArticle> getListeArticles() {
@@ -43,6 +61,7 @@ public class Mail {
         this.listeArticles = listeArticles;
     }
 
+    @OneToMany(mappedBy = "proformat", cascade = CascadeType.ALL)
     List<FicheProformat> listeFicheProformat;
 
     public List<FicheProformat> getListeFicheProformat() {
@@ -53,6 +72,7 @@ public class Mail {
         this.listeFicheProformat = listeProFicheProformat;
     }
 
+    @JoinColumn(name = "id_entreprise")
     Entreprise entreprise;
 
     public Entreprise getEntreprise() {

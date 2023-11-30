@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.systeme.fournisseur.api.APIResponse;
-import com.systeme.fournisseur.model.Mail;
 import com.systeme.fournisseur.model.Stock;
 import com.systeme.fournisseur.service.StockService;
 
@@ -20,24 +19,44 @@ public class StockController {
     private StockService stockService;
 
     @GetMapping
-    public List<Stock> getAllStocks() {
-        return stockService.getAllStocks();
+    public ResponseEntity<APIResponse> getAllStocks() {
+        try {
+            List<Stock> liste = stockService.getAllStocks();
+            return new ResponseEntity<APIResponse>(new APIResponse("", liste), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
-    public Stock getStockById(@PathVariable int id) {
-        return stockService.getStockById(id);
+    public ResponseEntity<APIResponse> getStockById(@PathVariable int id) {
+        try {
+            Stock liste = stockService.getStockById(id);
+            return new ResponseEntity<APIResponse>(new APIResponse("", liste), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping
-    public Stock createStock(@RequestBody Stock unite) {
-        return stockService.createStock(unite);
+    public ResponseEntity<APIResponse> createStock(@RequestBody Stock unite) {
+        try {
+            Stock liste = stockService.createStock(unite);
+            return new ResponseEntity<APIResponse>(new APIResponse("", liste), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/{id}")
-    public Stock updateUnite(@PathVariable int id, @RequestBody Stock unite) {
+    public ResponseEntity<APIResponse> updateUnite(@PathVariable int id, @RequestBody Stock unite) {
         unite.setId(id);
-        return stockService.updateStock(unite);
+        try {
+            Stock liste = stockService.updateStock(unite);
+            return new ResponseEntity<APIResponse>(new APIResponse("", liste), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<APIResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/{id}")
