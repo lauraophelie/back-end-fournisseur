@@ -50,7 +50,7 @@ public class Mail {
         this.objet = objet;
     }
 
-    @OneToMany(mappedBy = "fiche_article", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mail", cascade = CascadeType.ALL)
     List<FicheArticle> listeArticles;
 
     public List<FicheArticle> getListeArticles() {
@@ -61,7 +61,7 @@ public class Mail {
         this.listeArticles = listeArticles;
     }
 
-    @OneToMany(mappedBy = "proforma", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mail", cascade = CascadeType.ALL)
     List<FicheProforma> listeFicheProformat;
 
     public List<FicheProforma> getListeFicheProformat() {
@@ -72,6 +72,7 @@ public class Mail {
         this.listeFicheProformat = listeProFicheProformat;
     }
 
+    @ManyToOne
     @JoinColumn(name = "id_entreprise")
     Entreprise entreprise;
 

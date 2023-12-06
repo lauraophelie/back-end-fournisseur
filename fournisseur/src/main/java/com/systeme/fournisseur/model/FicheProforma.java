@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 @Table(name = "proforma")
 public class FicheProforma {
     @Id
-    @Column(name = "id_fiche_article", columnDefinition = "int DEFAULT nextval('article_id_seq') NOT NULL")
+    @Column(name = "id_proforma", columnDefinition = "int DEFAULT nextval('proforma_id_seq') NOT NULL")
     private int id;
 
     public int getId() {
