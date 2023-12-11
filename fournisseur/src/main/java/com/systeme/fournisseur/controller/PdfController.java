@@ -15,7 +15,10 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.systeme.fournisseur.api.APIResponse;
 import com.systeme.fournisseur.model.PdfGenerator;
+import com.systeme.fournisseur.pdf.TemplatePDF;
+
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
@@ -24,7 +27,14 @@ public class PdfController {
 
     @GetMapping("/facture")
     public ResponseEntity<?> getFacture() {
-        byte[] bytes = null;
+        try{
+            new TemplatePDF().generatePDF();
+            return ResponseEntity.ok(new APIResponse("", true));
+        } catch(Exception e){
+            APIResponse response = new APIResponse(e.toString(), false);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+        /*byte[] bytes = null;
         try {
             bytes = PdfGenerator.generateInvoice();
         } catch (DocumentException e) {
@@ -36,7 +46,7 @@ public class PdfController {
         }
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
-                .body(bytes);
+                .body(bytes);*/
     }
     @GetMapping("/test")
     public ResponseEntity<?> getLoadTest() {

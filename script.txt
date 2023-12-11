@@ -1,0 +1,206 @@
+CREATE TABLE Entreprise(
+   id_entreprise VARCHAR(8) ,
+   nom_entreprise VARCHAR(30)  NOT NULL,
+   siege VARCHAR(50) ,
+   PRIMARY KEY(id_entreprise),
+   UNIQUE(nom_entreprise)
+);
+
+CREATE TABLE Role(
+   id_role INTEGER,
+   nom_role VARCHAR(20)  NOT NULL,
+   PRIMARY KEY(id_role)
+);
+
+CREATE TABLE Magasin(
+   id_magasin VARCHAR(10) ,
+   nom_magasin VARCHAR(50) ,
+   id_entreprise VARCHAR(8)  NOT NULL,
+   PRIMARY KEY(id_magasin),
+   UNIQUE(id_entreprise),
+   FOREIGN KEY(id_entreprise) REFERENCES Entreprise(id_entreprise)
+);
+
+CREATE TABLE Unite(
+   id_unite INTEGER,
+   nom_unite VARCHAR(20)  NOT NULL,
+   PRIMARY KEY(id_unite)
+);
+
+CREATE TABLE Mail(
+   id_email INTEGER,
+   objet VARCHAR(50)  NOT NULL,
+   PRIMARY KEY(id_email)
+);
+
+CREATE TABLE Service(
+   id_service INTEGER,
+   nom_service VARCHAR(50)  NOT NULL,
+   id_entreprise VARCHAR(8)  NOT NULL,
+   PRIMARY KEY(id_service),
+   FOREIGN KEY(id_entreprise) REFERENCES Entreprise(id_entreprise)
+);
+
+CREATE TABLE Utilisateur(
+   id_user VARCHAR(10) ,
+   nom_utilisateur VARCHAR(50)  NOT NULL,
+   email VARCHAR(50)  NOT NULL,
+   id_role INTEGER NOT NULL,
+   id_service INTEGER NOT NULL,
+   PRIMARY KEY(id_user),
+   FOREIGN KEY(id_role) REFERENCES Role(id_role),
+   FOREIGN KEY(id_service) REFERENCES Service(id_service)
+);
+
+CREATE TABLE Article(
+   id_article VARCHAR(8) ,
+   nom_article VARCHAR(30)  NOT NULL,
+   type_stockage INTEGER NOT NULL,
+   id_unite INTEGER NOT NULL,
+   PRIMARY KEY(id_article),
+   FOREIGN KEY(id_unite) REFERENCES Unite(id_unite)
+);
+
+CREATE TABLE Demande_proforma(
+   id_dmd_proforma SERIAL,
+   id_sender VARCHAR(10) NOT NULL,
+   id_receiver VARCHAR(10)  NOT NULL,
+   id_email INTEGER,
+   date_dmd TIMESTAMP NOT NULL,
+   PRIMARY KEY(id_dmd_proforma),
+   FOREIGN KEY(id_email) REFERENCES Mail(id_email),
+   FOREIGN KEY(id_sender) REFERENCES Utilisateur(id_user),
+   FOREIGN KEY(id_receiver) REFERENCES Utilisateur(id_user)
+);
+
+CREATE TABLE Proforma(
+   id_proforma SERIAL,
+   id_dmd_proforma INTEGER NOT NULL,
+   id_sender VARCHAR(10) NOT NULL,
+   id_receiver VARCHAR(10)  NOT NULL,
+   date_proforma TIMESTAMP NOT NULL,
+   id_email INTEGER,
+   PRIMARY KEY(id_proforma),
+   FOREIGN KEY(id_dmd_proforma) REFERENCES Demande_proforma(id_dmd_proforma),
+   FOREIGN KEY(id_email) REFERENCES Mail(id_email),
+   FOREIGN KEY(id_sender) REFERENCES Utilisateur(id_user),
+   FOREIGN KEY(id_receiver) REFERENCES Utilisateur(id_user)
+);
+
+CREATE TABLE Bon_commande(
+   id_bc VARCHAR(10) ,
+   date_bc DATE NOT NULL,
+   id_sender VARCHAR(10) NOT NULL,
+   id_receiver VARCHAR(10)  NOT NULL,
+   id_email INTEGER,
+   id_proforma INTEGER NOT NULL,
+   PRIMARY KEY(id_bc),
+   FOREIGN KEY(id_proforma) REFERENCES Proforma(id_proforma),
+   FOREIGN KEY(id_email) REFERENCES Mail(id_email),
+   FOREIGN KEY(id_sender) REFERENCES Utilisateur(id_user),
+   FOREIGN KEY(id_receiver) REFERENCES Utilisateur(id_user)
+);
+
+CREATE TABLE Bon_sortie(
+   id_bs VARCHAR(10) ,
+   id_email INTEGER,
+   id_sender VARCHAR(10) NOT NULL,
+   id_receiver VARCHAR(10)  NOT NULL,
+   date_bs DATE NOT NULL,
+   PRIMARY KEY(id_bs),
+   UNIQUE(id_email, id_bc),
+   FOREIGN KEY(id_email) REFERENCES Mail(id_email),
+   FOREIGN KEY(id_sender) REFERENCES Utilisateur(id_user),
+   FOREIGN KEY(id_receiver) REFERENCES Utilisateur(id_user)
+);
+
+CREATE TABLE Bon_livraison(
+   id_email INTEGER,
+   id_sender VARCHAR(10) NOT NULL,
+   id_receiver VARCHAR(10)  NOT NULL,
+   id_bl VARCHAR(10) ,
+   date_bl DATE NOT NULL,
+   id_proforma INTEGER NOT NULL,
+   id_bc VARCHAR(10)  NOT NULL,
+   id_bs VARCHAR(10)  NOT NULL,
+   PRIMARY KEY(id_bl),
+   UNIQUE(id_email, id_bs),
+   FOREIGN KEY(id_email) REFERENCES Mail(id_email),
+   FOREIGN KEY(id_sender) REFERENCES Utilisateur(id_user),
+   FOREIGN KEY(id_receiver) REFERENCES Utilisateur(id_user),
+   FOREIGN KEY(id_proforma, id_bc) REFERENCES Bon_commande(id_proforma,id_bc),
+   FOREIGN KEY(id_bs) REFERENCES Bon_sortie(id_bs)
+);
+
+CREATE TABLE Facture(
+   id_facture VARCHAR(10) ,
+   id_email INTEGER,
+   id_sender VARCHAR(10) NOT NULL,
+   id_receiver VARCHAR(10)  NOT NULL,
+   date_facture DATE NOT NULL,
+   id_email INTEGER NOT NULL,
+   id_bl VARCHAR(10)  NOT NULL,
+   id_bc VARCHAR(10)  NOT NULL,
+   PRIMARY KEY(id_facture),
+   UNIQUE(id_email, id_bl, id_bc),
+   FOREIGN KEY(id_email) REFERENCES Mail(id_email),
+   FOREIGN KEY(id_sender) REFERENCES Utilisateur(id_user),
+   FOREIGN KEY(id_receiver) REFERENCES Utilisateur(id_user),
+   FOREIGN KEY(id_bl, id_bc) REFERENCES Bon_livraison(id_bl, id_bc)
+);
+
+CREATE TABLE Bon_reception(
+   id_br VARCHAR(10) ,
+   id_sender VARCHAR(10) NOT NULL,
+   id_receiver VARCHAR(10)  NOT NULL,
+   date_br DATE NOT NULL,
+   id_email INTEGER NOT NULL,
+   id_bl VARCHAR(10)  NOT NULL,
+   id_bc VARCHAR(10)  NOT NULL,
+   PRIMARY KEY(id_br),
+   UNIQUE(id_email,  id_bl, id_bc),
+   FOREIGN KEY(id_email) REFERENCES Mail(id_email),
+   FOREIGN KEY(id_sender) REFERENCES Utilisateur(id_user),
+   FOREIGN KEY(id_receiver) REFERENCES Utilisateur(id_user),
+   FOREIGN KEY(id_bl, id_bc) REFERENCES Bon_livraison(id_bl, id_bc)
+);
+
+CREATE TABLE Bon_entree(
+   id_be VARCHAR(10) ,
+   id_email INTEGER,
+   id_sender VARCHAR(10) NOT NULL,
+   id_receiver VARCHAR(10)  NOT NULL,
+   id_br VARCHAR(10) NOT NULL,
+   date_be DATE NOT NULL,
+   PRIMARY KEY(id_be),
+   UNIQUE(id_email, id_br),
+   FOREIGN KEY(id_br) REFERENCES Bon_reception(id_br),
+   FOREIGN KEY(id_email) REFERENCES Mail(id_email),
+   FOREIGN KEY(id_sender) REFERENCES Utilisateur(id_user),
+   FOREIGN KEY(id_receiver) REFERENCES Utilisateur(id_user),
+);
+
+CREATE TABLE Stock(
+   id_br VARCHAR(10) NOT NULL,
+   id_article VARCHAR(8) NOT NULL,
+   id_magasin VARCHAR(10)  NOT NULL,
+   id_stock SERIAL,
+   date_entree DATE NOT NULL,
+   quantite DOUBLE PRECISION NOT NULL,
+   prix_unitaire DOUBLE PRECISION NOT NULL,
+   PRIMARY KEY(id_stock),
+   FOREIGN KEY(id_br) REFERENCES Bon_reception(id_br),
+   FOREIGN KEY(id_article) REFERENCES Article(id_article),
+   FOREIGN KEY(id_magasin) REFERENCES Magasin(id_magasin)
+);
+
+CREATE TABLE Sortie(
+   id_sortie INTEGER,
+   date_sortie TIMESTAMP NOT NULL,
+   quantite DOUBLE PRECISION NOT NULL,
+   id_bs VARCHAR(10) NOT NULL,
+   id_stock INTEGER NOT NULL,
+   PRIMARY KEY(id_sortie),
+   FOREIGN KEY(id_bs) REFERENCES Bon_sortie(id_bs),
+   FOREIGN KEY(id_article, id_magasin, id_stock) REFERENCES Stock(id_article, id_magasin, id_stock)
+);

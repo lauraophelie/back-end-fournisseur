@@ -90,3 +90,34 @@ CREATE SEQUENCE entreprise_id_seq;
 ALTER TABLE article  ALTER column id_article set DEFAULT CONCAT('ART', nextval('article_id_seq'));
 ALTER TABLE fournisseur  ALTER column id_fournisseur set DEFAULT CONCAT('FRS', nextval('fournisseur_id_seq'));
 ALTER TABLE entreprise  ALTER column id_entreprise set DEFAULT CONCAT('SOC', nextval('entreprise_id_seq'));
+
+CREATE SEQUENCE role_id_seq;
+CREATE SEQUENCE service_id_seq;
+CREATE SEQUENCE utilisateur_id_seq;
+
+CREATE  TABLE roles ( 
+	id                   varchar(8) DEFAULT CONCAT('ROL', nextval('role_id_seq')) NOT NULL ,
+	nom                  text   ,
+	CONSTRAINT pk_roles_id PRIMARY KEY ( id )
+ );
+
+CREATE  TABLE service ( 
+	id                   varchar(8) DEFAULT CONCAT('SER', nextval('service_id_seq')) NOT NULL ,
+	nom_service          text   ,
+	CONSTRAINT pk_service_id PRIMARY KEY ( id )
+ );
+
+CREATE  TABLE utilisateur ( 
+	id                   varchar(8) DEFAULT CONCAT('UTI', nextval('utilisateur_id_seq')) NOT NULL ,
+	email                text   ,
+	mdp                  varchar(12)  NOT NULL ,
+	id_service           varchar(8)   ,
+	id_role              varchar(8)   ,
+	CONSTRAINT pk_utilisateur_id PRIMARY KEY ( id )
+ );
+
+ALTER TABLE utilisateur ADD CONSTRAINT cns_email_utilisateur CHECK ( UNIQUE(email) );
+
+ALTER TABLE utilisateur ADD CONSTRAINT fk_utilisateur_service FOREIGN KEY ( id_service ) REFERENCES service( id );
+
+ALTER TABLE utilisateur ADD CONSTRAINT fk_utilisateur_roles FOREIGN KEY ( id_role ) REFERENCES roles( id );
