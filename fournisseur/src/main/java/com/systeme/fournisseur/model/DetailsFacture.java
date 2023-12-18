@@ -8,10 +8,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "details_proforma")
-public class FicheProforma {
+@Table(name = "details_facture")
+public class DetailsFacture {
     @Id
-    @Column(name = "id_d_proforma", columnDefinition = "nextval('details_proforma_id_d_proforma_seq') NOT NULL")
+    @Column(name = "id_d_facture")
     private int id;
 
     public int getId() {
@@ -20,18 +20,6 @@ public class FicheProforma {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "id_mail")
-    private Mail mail;
-
-    public Mail getMail() {
-        return mail;
-    }
-
-    public void setMail(Mail mail) {
-        this.mail = mail;
     }
 
     @ManyToOne
@@ -57,22 +45,15 @@ public class FicheProforma {
         this.quantite = quantite;
     }
 
-    @Column(name = "prix_unitaire")
-    private double prixUnitaire;
+    @ManyToOne
+    @JoinColumn(name = "id_facture")
+    private Facture facture;
 
-    public double getPrixUnitaire() {
-        return prixUnitaire;
+    public Facture getFacture() {
+        return facture;
     }
 
-    public void setPrixUnitaire(double prixUnitaire) {
-        this.prixUnitaire = prixUnitaire;
-    }
-
-    public FicheProforma() {
-    }
-
-    public FicheProforma(FicheArticle ficheArticle) {
-        this.setArticle(ficheArticle.getArticle());
-        this.setQuantite(ficheArticle.getQuantite());
+    public void setFacture(Facture facture) {
+        this.facture = facture;
     }
 }

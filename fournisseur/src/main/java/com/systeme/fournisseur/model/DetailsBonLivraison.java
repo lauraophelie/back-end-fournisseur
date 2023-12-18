@@ -8,10 +8,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "details_proforma")
-public class FicheProforma {
+@Table(name = "details_b_livraison")
+public class DetailsBonLivraison {
     @Id
-    @Column(name = "id_d_proforma", columnDefinition = "nextval('details_proforma_id_d_proforma_seq') NOT NULL")
+    @Column(name = "id_d_bl")
     private int id;
 
     public int getId() {
@@ -20,18 +20,6 @@ public class FicheProforma {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "id_mail")
-    private Mail mail;
-
-    public Mail getMail() {
-        return mail;
-    }
-
-    public void setMail(Mail mail) {
-        this.mail = mail;
     }
 
     @ManyToOne
@@ -57,22 +45,26 @@ public class FicheProforma {
         this.quantite = quantite;
     }
 
-    @Column(name = "prix_unitaire")
-    private double prixUnitaire;
+    @ManyToOne
+    @JoinColumn(name = "id_b_livraison")
+    private BonLivraison bonLivraison;
 
-    public double getPrixUnitaire() {
-        return prixUnitaire;
+    public BonLivraison getBonLivraison() {
+        return bonLivraison;
     }
 
-    public void setPrixUnitaire(double prixUnitaire) {
-        this.prixUnitaire = prixUnitaire;
+    public void setBonLivraison(BonLivraison bonLivraison) {
+        this.bonLivraison = bonLivraison;
     }
 
-    public FicheProforma() {
+    @Column(name = "remarque")
+    private String remarque;
+
+    public String getRemarque() {
+        return remarque;
     }
 
-    public FicheProforma(FicheArticle ficheArticle) {
-        this.setArticle(ficheArticle.getArticle());
-        this.setQuantite(ficheArticle.getQuantite());
+    public void setRemarque(String remarque) {
+        this.remarque = remarque;
     }
 }

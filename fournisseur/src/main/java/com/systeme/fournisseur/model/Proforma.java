@@ -8,10 +8,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "details_proforma")
-public class FicheProforma {
+@Table(name = "proforma")
+public class Proforma {
     @Id
-    @Column(name = "id_d_proforma", columnDefinition = "nextval('details_proforma_id_d_proforma_seq') NOT NULL")
+    @Column(name = "id_proforma", columnDefinition = "int DEFAULT nextval('proforma_id_seq') NOT NULL")
     private int id;
 
     public int getId() {
@@ -68,10 +68,10 @@ public class FicheProforma {
         this.prixUnitaire = prixUnitaire;
     }
 
-    public FicheProforma() {
+    public Proforma() {
     }
 
-    public FicheProforma(FicheArticle ficheArticle) {
+    public Proforma(FicheArticle ficheArticle) {
         this.setArticle(ficheArticle.getArticle());
         this.setQuantite(ficheArticle.getQuantite());
     }

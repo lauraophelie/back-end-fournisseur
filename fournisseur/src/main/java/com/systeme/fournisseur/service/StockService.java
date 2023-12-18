@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.systeme.fournisseur.model.Article;
 import com.systeme.fournisseur.model.Mail;
 import com.systeme.fournisseur.model.FicheArticle;
-import com.systeme.fournisseur.model.FicheProforma;
+import com.systeme.fournisseur.model.Proforma;
 import com.systeme.fournisseur.model.Fournisseur;
 import com.systeme.fournisseur.model.Stock;
 import com.systeme.fournisseur.repository.StockRepository;
@@ -22,9 +22,9 @@ public class StockService {
     private StockRepository stockRepository;
 
     public Mail getStockDemande(Mail demande) {
-        List<FicheProforma> liste = new ArrayList<>();
+        List<Proforma> liste = new ArrayList<>();
         for (FicheArticle detailDemande : demande.getListeArticles()) {
-            FicheProforma fiche = new FicheProforma(detailDemande);
+            Proforma fiche = new Proforma(detailDemande);
             Stock stock = getStockArticle(detailDemande.getArticle(), demande.getFournisseur());
             if (stock.getQuantite() < detailDemande.getQuantite()) {
                 fiche.setQuantite(stock.getQuantite());
@@ -73,5 +73,4 @@ public class StockService {
     public List<Stock> getAllStocks() {
         return stockRepository.findAll();
     }
-
 }

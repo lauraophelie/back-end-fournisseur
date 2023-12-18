@@ -62,13 +62,13 @@ public class Mail {
     }
 
     @OneToMany(mappedBy = "mail", cascade = CascadeType.ALL)
-    List<FicheProforma> listeFicheProformat;
+    List<Proforma> listeFicheProformat;
 
-    public List<FicheProforma> getListeFicheProformat() {
+    public List<Proforma> getListeFicheProformat() {
         return listeFicheProformat;
     }
 
-    public void setListeFicheProformat(List<FicheProforma> listeProFicheProformat) {
+    public void setListeFicheProformat(List<Proforma> listeProFicheProformat) {
         this.listeFicheProformat = listeProFicheProformat;
     }
 
