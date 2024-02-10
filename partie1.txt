@@ -1,0 +1,82 @@
+CREATE TABLE Entreprise(
+   id_entreprise VARCHAR(8) ,
+   nom_entreprise VARCHAR(30)  NOT NULL,
+   siege VARCHAR(50) ,
+   PRIMARY KEY(id_entreprise),
+   UNIQUE(nom_entreprise)
+);
+
+CREATE TABLE Role(
+   id_role SERIAL,
+   nom_role VARCHAR(20)  NOT NULL,
+   PRIMARY KEY(id_role)
+);
+
+CREATE TABLE Magasin(
+   id_magasin VARCHAR(10) ,
+   nom_magasin VARCHAR(50) ,
+   id_entreprise VARCHAR(8)  NOT NULL,
+   PRIMARY KEY(id_magasin),
+   UNIQUE(id_entreprise),
+   FOREIGN KEY(id_entreprise) REFERENCES Entreprise(id_entreprise)
+);
+
+CREATE TABLE Unite(
+   id_unite SERIAL,
+   nom_unite VARCHAR(20)  NOT NULL,
+   PRIMARY KEY(id_unite)
+);
+
+CREATE TABLE Service(
+   id_service SERIAL,
+   nom_service VARCHAR(50)  NOT NULL,
+   id_magasin VARCHAR(10) ,
+   id_entreprise VARCHAR(8)  NOT NULL,
+   PRIMARY KEY(id_service),
+   FOREIGN KEY(id_magasin) REFERENCES Magasin(id_magasin),
+   FOREIGN KEY(id_entreprise) REFERENCES Entreprise(id_entreprise)
+);
+
+CREATE TABLE Utilisateur(
+   id_user VARCHAR(10) ,
+   nom_utilisateur VARCHAR(50)  NOT NULL,
+   email VARCHAR(50)  NOT NULL,
+   id_role INTEGER NOT NULL,
+   id_service INTEGER NOT NULL,
+   PRIMARY KEY(id_user),
+   FOREIGN KEY(id_role) REFERENCES Role(id_role),
+   FOREIGN KEY(id_service) REFERENCES Service(id_service)
+);
+
+CREATE TABLE Article(
+   id_article VARCHAR(8) ,
+   nom_article VARCHAR(30)  NOT NULL,
+   type_stockage INTEGER NOT NULL,
+   id_unite INTEGER NOT NULL,
+   PRIMARY KEY(id_article),
+   FOREIGN KEY(id_unite) REFERENCES Unite(id_unite)
+);
+
+CREATE TABLE Stock(
+   id_article VARCHAR(8) ,
+   id_magasin VARCHAR(10) ,
+   id_stock INTEGER,
+   date_entree DATE NOT NULL,
+   quantite DOUBLE PRECISION NOT NULL,
+   prix_unitaire VARCHAR(50) ,
+   PRIMARY KEY(id_article, id_magasin, id_stock),
+   FOREIGN KEY(id_article) REFERENCES Article(id_article),
+   FOREIGN KEY(id_magasin) REFERENCES Magasin(id_magasin)
+);
+
+CREATE TABLE Sortie(
+   id_sortie SERIAL,
+   date_sortie TIMESTAMP NOT NULL,
+   quantite DOUBLE PRECISION NOT NULL,
+   id_article VARCHAR(8)  NOT NULL,
+   id_magasin VARCHAR(10)  NOT NULL,
+   id_stock INTEGER NOT NULL,
+   PRIMARY KEY(id_sortie),
+   FOREIGN KEY(id_article, id_magasin, id_stock) REFERENCES Stock(id_article, id_magasin, id_stock)
+);
+

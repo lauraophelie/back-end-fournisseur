@@ -1,6 +1,5 @@
 package com.systeme.fournisseur.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.systeme.fournisseur.model.Mail;
@@ -13,7 +12,6 @@ import java.util.Optional;
 public class MailService {
     private final MailRepository mailRepository;
 
-    @Autowired
     public MailService(MailRepository mailRepository) {
         this.mailRepository = mailRepository;
     }

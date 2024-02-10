@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 public class Article {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    @Column(name = "id_article")
+    @Column(name = "id_article", columnDefinition = "varchar(8) DEFAULT CONCAT('ART', nextval('article_id_seq')) NOT NULL")
     private String Id;
 
     public String getId() {
@@ -47,4 +47,17 @@ public class Article {
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "id_unite")
+    private Unite unite;
+
+    public Unite getUnite() {
+        return unite;
+    }
+
+    public void setUnite(Unite unite) {
+        this.unite = unite;
+    }
+
 }

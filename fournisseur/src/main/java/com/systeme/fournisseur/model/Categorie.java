@@ -2,17 +2,14 @@ package com.systeme.fournisseur.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "categorie")
 public class Categorie {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id_categorie")
+    @Column(name = "id_categorie", columnDefinition = "int default nextval('article_id_seq') NOT NULL")
     private int id;
 
     public int getId() {
