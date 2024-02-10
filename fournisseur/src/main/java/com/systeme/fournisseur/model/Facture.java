@@ -21,6 +21,9 @@ public class Facture {
     @Column(name = "id_facture")
     private int idFacture;
 
+    public Facture(int id_proforma) {
+    }
+
     public int getIdFacture() {
         return idFacture;
     }
@@ -82,5 +85,12 @@ public class Facture {
 
     public void setDetails(List<DetailsFacture> details) {
         this.details = details;
+    }
+
+    public double getSommeMontant() {
+        double somme = 0;
+        for (DetailsFacture detailsFacture : details) {
+            somme += detailsFacture.getQuantite() * detailsFacture.getPrixUnitaire();
+        }
     }
 }

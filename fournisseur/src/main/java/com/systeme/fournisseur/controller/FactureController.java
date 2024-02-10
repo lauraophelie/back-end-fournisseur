@@ -2,6 +2,7 @@ package com.systeme.fournisseur.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.systeme.fournisseur.model.BonCommande;
 import com.systeme.fournisseur.model.Facture;
 import com.systeme.fournisseur.service.FactureService;
 
@@ -49,4 +50,14 @@ public class FactureController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/generate")
+    public ResponseEntity<Facture> sendFacture(@PathVariable BonCommande bonCommande) {
+        try{
+            Facture facture = new Facture(bonCommande.getId_proforma());
+        factureService.saveFacture(facture);
+        return ResponseEntity.ok(facture);
+        } catch(Exception e){
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

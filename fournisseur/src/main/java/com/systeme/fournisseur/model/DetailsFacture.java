@@ -45,6 +45,17 @@ public class DetailsFacture {
         this.quantite = quantite;
     }
 
+    @Column(name = "prix_unitaire")
+    double prixUnitaire;
+
+    public double getPrixUnitaire() {
+        return prixUnitaire;
+    }
+
+    public void setPrixUnitaire(double prixUnitaire) {
+        this.prixUnitaire = prixUnitaire;
+    }
+
     @ManyToOne
     @JoinColumn(name = "id_facture")
     private Facture facture;
